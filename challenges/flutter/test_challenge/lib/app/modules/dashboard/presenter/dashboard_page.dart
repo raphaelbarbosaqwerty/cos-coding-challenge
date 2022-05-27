@@ -1,6 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:test_challenge/app/modules/dashboard/dashboard_store.dart';
 import 'package:flutter/material.dart';
+import 'package:test_challenge/app/modules/dashboard/presenter/dashboard_store.dart';
 
 class DashboardPage extends StatefulWidget {
   final String title;
@@ -60,7 +60,7 @@ class DashboardPageState extends State<DashboardPage> {
               title: const Text('Profile'),
               onTap: () {
                 Navigator.pop(context);
-                // TODO - Move to profile
+                Modular.to.pushNamed('/profile/');
               },
             ),
             ListTile(
