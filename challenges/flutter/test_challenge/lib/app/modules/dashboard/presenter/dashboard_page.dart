@@ -16,6 +16,7 @@ class DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       drawer: Drawer(
         child: ListView(
@@ -84,45 +85,55 @@ class DashboardPageState extends State<DashboardPage> {
       // TODO - Cars list
       body: Padding(
         padding: const EdgeInsets.all(24),
-        child: ListView.builder(
-          itemCount: vehicleList.length,
-          itemBuilder: (context, index) {
-            final vehicle = vehicleList[index];
-            return InkWell(
-              onTap: () {
-                Modular.to.pushNamed(
-                  '/vehicles/',
-                  arguments: vehicle,
-                );
-              },
-              child: AspectRatio(
-                aspectRatio: 3.5,
-                child: Card(
-                  elevation: 2,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                    ),
-                    child: Row(
-                      children: [
-                        const SizedBox(
-                          height: 64,
-                          width: 64,
-                          child: CircleAvatar(
-                            child: Text('IMG Car'),
-                          ),
+        child: Column(
+          children: [
+            Text(
+              "Cars",
+              style: textTheme.headline6,
+            ),
+            const Divider(),
+            ListView.builder(
+              shrinkWrap: true,
+              itemCount: vehicleList.length,
+              itemBuilder: (context, index) {
+                final vehicle = vehicleList[index];
+                return InkWell(
+                  onTap: () {
+                    Modular.to.pushNamed(
+                      '/vehicles/',
+                      arguments: vehicle,
+                    );
+                  },
+                  child: AspectRatio(
+                    aspectRatio: 3.5,
+                    child: Card(
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
                         ),
-                        const SizedBox(
-                          width: 6,
+                        child: Row(
+                          children: [
+                            const SizedBox(
+                              height: 64,
+                              width: 64,
+                              child: CircleAvatar(
+                                child: Text('IMG Car'),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 6,
+                            ),
+                            Text(vehicle.name),
+                          ],
                         ),
-                        Text(vehicle.name),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-            );
-          },
+                );
+              },
+            ),
+          ],
         ),
       ),
     );

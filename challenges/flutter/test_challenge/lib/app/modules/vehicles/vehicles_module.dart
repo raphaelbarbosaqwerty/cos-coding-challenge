@@ -10,6 +10,11 @@ class VehiclesModule extends Module {
 
   @override
   final List<ModularRoute> routes = [
-    ChildRoute('/', child: (_, args) => const VehiclesPage()),
+    ChildRoute(
+      '/',
+      child: (_, args) => VehiclesPage(
+        vehicle: args.data,
+      ),
+    ),
   ];
 }
