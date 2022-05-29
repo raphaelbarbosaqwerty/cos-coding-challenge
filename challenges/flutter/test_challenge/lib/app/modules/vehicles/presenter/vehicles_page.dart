@@ -43,7 +43,7 @@ class VehiclesPageState extends State<VehiclesPage> {
           child: Column(
             children: <Widget>[
               Text(
-                "Vehicle Inspections",
+                "Inspections: ${widget.vehicle.name}",
                 style: textTheme.headline6,
               ),
               const Divider(),
@@ -69,13 +69,14 @@ class VehiclesPageState extends State<VehiclesPage> {
                         return InkWell(
                           onTap: () {
                             Modular.to.pushNamed(
-                              '/vehicles/',
+                              '/vehicles/inspections',
                               arguments: inspection,
                             );
                           },
-                          child: const CellGenericWidget(
+                          child: CellGenericWidget(
                             hasImg: false,
-                            name: "TEST",
+                            name:
+                                "Inspection date: ${inspection.dateFormatted}",
                           ),
                         );
                       },
@@ -91,8 +92,7 @@ class VehiclesPageState extends State<VehiclesPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO - Open page to create new Inspection
-          // Modular.to.pushNamed('routeName');
+          Modular.to.pushNamed('/vehicles/inspections');
         },
         child: const Icon(
           Icons.add_comment,

@@ -7,6 +7,8 @@ import 'package:test_challenge/app/modules/vehicles/infra/repositories/vehicles_
 import 'package:test_challenge/app/modules/vehicles/presenter/vehicles_page.dart';
 import 'package:test_challenge/app/modules/vehicles/presenter/vehicles_store.dart';
 
+import 'presenter/pages/inspection_page/inspection_page.dart';
+
 class VehiclesModule extends Module {
   @override
   final List<Bind> binds = [
@@ -23,6 +25,12 @@ class VehiclesModule extends Module {
       '/',
       child: (_, args) => VehiclesPage(
         vehicle: args.data,
+      ),
+    ),
+    ChildRoute(
+      '/inspections',
+      child: (_, args) => InspectionPage(
+        inspection: args.data,
       ),
     ),
   ];

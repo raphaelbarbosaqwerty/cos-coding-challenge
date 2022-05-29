@@ -1,4 +1,3 @@
-import 'package:test_challenge/app/core/domain/entities/vehicle.dart';
 import 'package:test_challenge/app/modules/vehicles/domain/entities/inspection.dart';
 
 abstract class VehiclesState {}
