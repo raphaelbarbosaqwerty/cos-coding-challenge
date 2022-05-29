@@ -1,10 +1,9 @@
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
-import 'package:test_challenge/app/core/utils/dashboard_list.dart';
-import 'package:test_challenge/app/core/utils/vehicle_list.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:test_challenge/app/core/presenter/custom_drawer/custom_drawer.dart';
 import 'package:test_challenge/app/modules/dashboard/presenter/dashboard_store.dart';
 import 'package:test_challenge/app/modules/dashboard/presenter/states/dashboard_state.dart';
-import 'package:test_challenge/app/modules/dashboard/presenter/widgets/dashboard_vehicle_cell.dart';
+import 'package:test_challenge/app/modules/dashboard/presenter/widgets/dashboard_vehicle_cell/dashboard_vehicle_cell.dart';
 
 class DashboardPage extends StatefulWidget {
   final String title;
@@ -26,67 +25,7 @@ class DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Colors.blue,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  // TODO - Load user image
-                  SizedBox(
-                    height: 64,
-                    width: 64,
-                    child: CircleAvatar(
-                      child: Text("IMG"),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  // TODO - Dynamic name
-                  Text('User name here'),
-                ],
-              ),
-            ),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: dashboardList.length,
-              itemBuilder: (context, index) {
-                final item = dashboardList[index];
-                return ListTile(
-                  leading: Icon(
-                    item.iconData,
-                    color: Colors.black,
-                  ),
-                  title: Text(item.name),
-                  onTap: () {
-                    Navigator.pop(context);
-                    if (item.route != null) {
-                      Modular.to.pushNamed(item.route ?? "/");
-                    }
-                  },
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(
-                Icons.logout,
-                color: Colors.black,
-              ),
-              title: const Text('Logout'),
-              onTap: () {
-                Navigator.pop(context);
-                // TODO - Do the logout
-              },
-            ),
-          ],
-        ),
-      ),
+      drawer: const CustomDrawer(),
       appBar: AppBar(
         title: Text(widget.title),
       ),

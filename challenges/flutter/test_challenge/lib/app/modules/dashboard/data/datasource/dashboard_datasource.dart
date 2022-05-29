@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:test_challenge/app/core/domain/entities/vehicle.dart';
-import 'package:test_challenge/app/core/infra/mappers/vehicle_mapper.dart';
 import 'package:test_challenge/app/modules/dashboard/infra/datasource/dashboard_datasource_interface.dart';
+import 'package:test_challenge/app/modules/dashboard/infra/mappers/vehicle_mapper.dart';
 
 class DashboardDatasource implements IDashboardDatasource {
   final FirebaseFirestore db;
