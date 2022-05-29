@@ -1,7 +1,9 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
 import 'package:test_challenge/app/core/domain/entities/vehicle.dart';
+import 'package:test_challenge/app/core/presenter/cell_generic/cell_generic_widget.dart';
 import 'package:test_challenge/app/core/utils/inspection_list.dart';
+import 'package:test_challenge/app/modules/vehicles/presenter/states/vehicles_states.dart';
 import 'package:test_challenge/app/modules/vehicles/presenter/vehicles_store.dart';
 
 class VehiclesPage extends StatefulWidget {
@@ -18,6 +20,12 @@ class VehiclesPage extends StatefulWidget {
 
 class VehiclesPageState extends State<VehiclesPage> {
   final VehiclesStore store = Modular.get();
+
+  @override
+  void initState() {
+    super.initState();
+    store.getVehicles(widget.vehicle.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,48 +47,55 @@ class VehiclesPageState extends State<VehiclesPage> {
                 style: textTheme.headline6,
               ),
               const Divider(),
-              ListView.builder(
-                shrinkWrap: true,
-                itemCount: inspectionList.length,
-                itemBuilder: (context, index) {
-                  final inspection = inspectionList[index];
-                  return InkWell(
-                    onTap: () {
-                      Modular.to.pushNamed(
-                        '/vehicles/',
-                        arguments: inspection,
-                      );
-                    },
-                    child: AspectRatio(
-                      aspectRatio: 3.5,
-                      child: Card(
-                        elevation: 2,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
+              ValueListenableBuilder(
+                valueListenable: store,
+                builder: (context, value, _) {
+                  if (value is LoadingVehiclesState) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  if (value is ErrorVehiclesState) {
+                    return Text(value.error);
+                  }
+
+                  if (value is LoadedVehiclesState) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: value.inspections.length,
+                      itemBuilder: (context, index) {
+                        final inspection = value.inspections[index];
+                        return InkWell(
+                          onTap: () {
+                            Modular.to.pushNamed(
+                              '/vehicles/',
+                              arguments: inspection,
+                            );
+                          },
+                          child: const CellGenericWidget(
+                            hasImg: false,
+                            name: "TEST",
                           ),
-                          child: Row(
-                            children: [
-                              const SizedBox(
-                                height: 64,
-                                width: 64,
-                                child: CircleAvatar(
-                                  child: Text('DATE'),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 6,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
+                        );
+                      },
+                    );
+                  }
+
+                  return const SizedBox();
                 },
               ),
             ],
           ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // TODO - Open page to create new Inspection
+          // Modular.to.pushNamed('routeName');
+        },
+        child: const Icon(
+          Icons.add_comment,
         ),
       ),
     );

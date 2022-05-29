@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:test_challenge/app/core/utils/dashboard_list.dart';
 
-class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({Key? key}) : super(key: key);
+class CustomDrawerWidget extends StatelessWidget {
+  const CustomDrawerWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

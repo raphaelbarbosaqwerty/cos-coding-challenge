@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:test_challenge/app/core/presenter/custom_drawer/custom_drawer.dart';
+import 'package:test_challenge/app/core/presenter/cell_generic/cell_generic_widget.dart';
+import 'package:test_challenge/app/core/presenter/custom_drawer/custom_drawer_widget.dart';
 import 'package:test_challenge/app/modules/dashboard/presenter/dashboard_store.dart';
 import 'package:test_challenge/app/modules/dashboard/presenter/states/dashboard_state.dart';
-import 'package:test_challenge/app/modules/dashboard/presenter/widgets/dashboard_vehicle_cell/dashboard_vehicle_cell.dart';
 
 class DashboardPage extends StatefulWidget {
   final String title;
@@ -25,7 +25,7 @@ class DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      drawer: const CustomDrawer(),
+      drawer: const CustomDrawerWidget(),
       appBar: AppBar(
         title: Text(widget.title),
       ),
@@ -64,7 +64,7 @@ class DashboardPageState extends State<DashboardPage> {
                             arguments: vehicle,
                           );
                         },
-                        child: DashboardVehicleCell(
+                        child: CellGenericWidget(
                           img: vehicle.img,
                           name: vehicle.name,
                         ),

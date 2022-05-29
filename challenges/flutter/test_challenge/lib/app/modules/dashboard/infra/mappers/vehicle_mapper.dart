@@ -6,7 +6,7 @@ class VehicleMapper {
       id: documentId,
       img: json['img'],
       model: json['model'],
-      year: DateTime.now(),
+      year: DateTime.fromMillisecondsSinceEpoch(json['year'].seconds * 1000),
       name: json['name'],
     );
   }
