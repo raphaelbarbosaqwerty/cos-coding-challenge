@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
-class DashboardVehicleCell extends StatelessWidget {
-  const DashboardVehicleCell({
+class CellGenericWidget extends StatelessWidget {
+  const CellGenericWidget({
     Key? key,
-    required this.img,
+    this.img = "",
     required this.name,
+    this.hasImg = true,
   }) : super(key: key);
 
   final String name;
+  final bool hasImg;
   final String img;
 
   @override
@@ -22,12 +24,15 @@ class DashboardVehicleCell extends StatelessWidget {
           ),
           child: Row(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(30.0),
-                child: Image.network(
-                  img,
-                  height: 64.0,
-                  width: 64.0,
+              Visibility(
+                visible: hasImg,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(30.0),
+                  child: Image.network(
+                    img,
+                    height: 64.0,
+                    width: 64.0,
+                  ),
                 ),
               ),
               const SizedBox(
