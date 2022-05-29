@@ -10,24 +10,24 @@ Please fork the repo and create the Flutter project in the directory of this REA
 Build a Flutter mobile application for Android and iOS that includes:
 - A **login page**
   - Uses Firebase Authentication (email + password)
-  - Registration of new users is not needed
-  - Just add a dummy user and password in Firebase
+  - Registration of new users is not needed ✔️
+  - Just add a dummy user and password in Firebase ✔️
 - A **profile page** containing:
-  - User's email
+  - User's email ✔️
   - User's profile picture
   - User's preferred photo method
     - Can be switched between Camera and Gallery
     - Should be stored, so that the settings stay the same after application is closed and reopened
   - An option to change the user's password
   - An option to change the user's profile picture (please check the user's preferred photo method)
-  - An option to logout
+  - An option to logout ✔️
 
 - A **vehicle inspection overview page** containing:
-  - List of previously done inspections
-    - List is sorted by creation time in descending order
-    - If a list item is clicked, a prefilled *vehicle inspection details page* will be opened
-  - Floating Action Button to create a new inspection
-    - If clicked an empty *vehicle inspection details page* is opened
+  - List of previously done inspections ✔️
+    - List is sorted by creation time in descending order ✔️
+    - If a list item is clicked, a prefilled *vehicle inspection details page* will be opened ✔️
+  - Floating Action Button to create a new inspection ✔️
+    - If clicked an empty *vehicle inspection details page* is opened ✔️
 
 - A **vehicle inspection details page** containing:
   - This page should be implemented as a form with validation:
