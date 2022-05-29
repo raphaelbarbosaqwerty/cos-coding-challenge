@@ -5,12 +5,12 @@ List<Vehicle> vehicleList = [
     name: "Vehicle XYZ",
     img: 'localhost',
     model: 'XYZ',
-    year: '2022',
+    year: DateTime.now(),
   ),
   Vehicle(
     name: "Vehicle ZTS",
     img: 'localhost',
     model: 'XYZ',
-    year: '2022',
+    year: DateTime.now(),
   ),
 ];
