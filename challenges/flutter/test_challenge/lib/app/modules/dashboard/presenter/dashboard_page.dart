@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:test_challenge/app/core/utils/dashboard_list.dart';
 import 'package:test_challenge/app/core/utils/vehicle_list.dart';
 import 'package:test_challenge/app/modules/dashboard/presenter/dashboard_store.dart';
+import 'package:test_challenge/app/modules/dashboard/presenter/states/dashboard_state.dart';
+import 'package:test_challenge/app/modules/dashboard/presenter/widgets/dashboard_vehicle_cell.dart';
 
 class DashboardPage extends StatefulWidget {
   final String title;
@@ -13,6 +15,12 @@ class DashboardPage extends StatefulWidget {
 
 class DashboardPageState extends State<DashboardPage> {
   final DashboardStore store = Modular.get();
+
+  @override
+  void initState() {
+    super.initState();
+    store.getListVehicles();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +90,6 @@ class DashboardPageState extends State<DashboardPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      // TODO - Cars list
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
@@ -92,45 +99,42 @@ class DashboardPageState extends State<DashboardPage> {
               style: textTheme.headline6,
             ),
             const Divider(),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: vehicleList.length,
-              itemBuilder: (context, index) {
-                final vehicle = vehicleList[index];
-                return InkWell(
-                  onTap: () {
-                    Modular.to.pushNamed(
-                      '/vehicles/',
-                      arguments: vehicle,
-                    );
-                  },
-                  child: AspectRatio(
-                    aspectRatio: 3.5,
-                    child: Card(
-                      elevation: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
+            ValueListenableBuilder(
+              valueListenable: store,
+              builder: (context, value, _) {
+                if (value is LoadingDashboardState) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                if (value is ErrorDashboardState) {
+                  return Text(value.error);
+                }
+
+                if (value is LoadedDashboardState) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: value.vehicles.length,
+                    itemBuilder: (context, index) {
+                      final vehicle = value.vehicles[index];
+                      return InkWell(
+                        onTap: () {
+                          Modular.to.pushNamed(
+                            '/vehicles/',
+                            arguments: vehicle,
+                          );
+                        },
+                        child: DashboardVehicleCell(
+                          img: vehicle.img,
+                          name: vehicle.name,
                         ),
-                        child: Row(
-                          children: [
-                            const SizedBox(
-                              height: 64,
-                              width: 64,
-                              child: CircleAvatar(
-                                child: Text('IMG Car'),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 6,
-                            ),
-                            Text(vehicle.name),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                );
+                      );
+                    },
+                  );
+                }
+
+                return const SizedBox();
               },
             ),
           ],
