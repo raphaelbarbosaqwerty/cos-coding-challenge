@@ -30,13 +30,13 @@ Build a Flutter mobile application for Android and iOS that includes:
     - If clicked an empty *vehicle inspection details page* is opened ✔️
 
 - A **vehicle inspection details page** containing:
-  - This page should be implemented as a form with validation:
-    - Date of inspection (required) - Date cannot be in the future
-    - Vehicle Identification Number (required) - must be exactly 17 characters. Cannot contain I, O, U characters. Can only contain numbers and letters.
+  - This page should be implemented as a form with validation: ✔️
+    - Date of inspection (required) - Date cannot be in the future ✔️
+    - Vehicle Identification Number (required) - must be exactly 17 characters. Cannot contain I, O, U characters. Can only contain numbers and letters. ✔️
     - Vehicle make (optional) ❎
     - Vehicle model (optional) ❎
     - Vehicle photo (optional) ❎
-  - If the required form fields do not match the validation criteria the page cannot be closed and the user should get a warning message
+  - If the required form fields do not match the validation criteria the page cannot be closed and the user should get a warning message ✔️
 
 
 

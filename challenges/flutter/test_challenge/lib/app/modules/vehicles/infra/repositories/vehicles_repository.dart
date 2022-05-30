@@ -15,4 +15,13 @@ class VehiclesRepository implements IVehiclesRepository {
       return [];
     }
   }
+
+  @override
+  Future<bool> newInspection(Inspection inspection) async {
+    try {
+      return await datasource.newInspection(inspection);
+    } catch (e) {
+      return false;
+    }
+  }
 }

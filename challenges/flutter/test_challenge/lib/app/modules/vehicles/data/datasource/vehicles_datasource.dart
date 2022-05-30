@@ -19,4 +19,15 @@ class VehiclesDatasource implements IVehiclesDatasource {
         .map((e) => InspectionMapper.fromJson(e.data(), e.id))
         .toList();
   }
+
+  @override
+  Future<bool> newInspection(Inspection inspection) async {
+    try {
+      final response = db.collection('inspections');
+      response.add(InspectionMapper.toJson(inspection));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 }

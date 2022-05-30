@@ -13,7 +13,9 @@ class GetInspectionsByVehicleId implements IGetInspectionsByVehicleId {
   @override
   Future<List<Inspection>> call(String id) async {
     try {
-      return repository.getInspectionsByVehicleId(id);
+      final result = await repository.getInspectionsByVehicleId(id);
+      result.sort((a, b) => b.date!.compareTo(a.date ?? DateTime.now()));
+      return result;
     } catch (e) {
       return [];
     }
