@@ -9,12 +9,12 @@ List<Dashboard> dashboardList = [
   ),
   Dashboard(
     name: "Profile",
-    route: "/profile",
+    route: "/dashboard/profile",
     iconData: Icons.person,
   ),
   Dashboard(
     name: "Vehicles",
-    route: "/vehicles",
+    route: "/dashboard/vehicles",
     iconData: Icons.car_rental,
   ),
 ];

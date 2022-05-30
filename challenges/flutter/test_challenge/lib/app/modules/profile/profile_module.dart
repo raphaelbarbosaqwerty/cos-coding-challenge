@@ -5,7 +5,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 class ProfileModule extends Module {
   @override
   final List<Bind> binds = [
-    Bind.lazySingleton((i) => ProfileStore()),
+    Bind.lazySingleton((i) => ProfileStore(i.get())),
   ];
 
   @override

@@ -25,7 +25,22 @@ class DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      drawer: const CustomDrawerWidget(),
+      drawer: CustomDrawerWidget(
+        onTapLogout: () async {
+          final response = await store.logout();
+          if (response) {
+            Modular.to.navigate('/');
+          } else {
+            Navigator.of(context).pop();
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Error!'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+        },
+      ),
       appBar: AppBar(
         title: Text(widget.title),
       ),
@@ -60,7 +75,7 @@ class DashboardPageState extends State<DashboardPage> {
                       return InkWell(
                         onTap: () {
                           Modular.to.pushNamed(
-                            '/vehicles/',
+                            '/dashboard/vehicles/',
                             arguments: vehicle,
                           );
                         },

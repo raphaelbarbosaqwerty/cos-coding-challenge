@@ -2,7 +2,6 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
 import 'package:test_challenge/app/core/domain/entities/vehicle.dart';
 import 'package:test_challenge/app/core/presenter/cell_generic/cell_generic_widget.dart';
-import 'package:test_challenge/app/core/utils/inspection_list.dart';
 import 'package:test_challenge/app/modules/vehicles/presenter/states/vehicles_states.dart';
 import 'package:test_challenge/app/modules/vehicles/presenter/vehicles_store.dart';
 
@@ -69,7 +68,7 @@ class VehiclesPageState extends State<VehiclesPage> {
                         return InkWell(
                           onTap: () {
                             Modular.to.pushNamed(
-                              '/vehicles/inspections',
+                              '/dashboard/vehicles/inspections',
                               arguments: inspection,
                             );
                           },
@@ -92,7 +91,7 @@ class VehiclesPageState extends State<VehiclesPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Modular.to.pushNamed('/vehicles/inspections');
+          Modular.to.pushNamed('/dashboard/vehicles/inspections');
         },
         child: const Icon(
           Icons.add_comment,

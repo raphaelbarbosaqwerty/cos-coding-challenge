@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:test_challenge/app/core/utils/dashboard_list.dart';
+import 'package:test_challenge/app/core/utils/global_informations.dart';
 
 class CustomDrawerWidget extends StatelessWidget {
-  const CustomDrawerWidget({Key? key}) : super(key: key);
+  final IGlobalInformations globalInformations = Modular.get();
+
+  CustomDrawerWidget({
+    Key? key,
+    required this.onTapLogout,
+  }) : super(key: key);
+
+  final Function()? onTapLogout;
 
   @override
   Widget build(BuildContext context) {
@@ -17,20 +25,27 @@ class CustomDrawerWidget extends StatelessWidget {
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 // TODO - Load user image
                 SizedBox(
                   height: 64,
                   width: 64,
-                  child: CircleAvatar(
-                    child: Text("IMG"),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(30.0),
+                    child: Image.network(
+                      globalInformations.user?.photoUrl ?? "",
+                      height: 64.0,
+                      width: 64.0,
+                    ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 // TODO - Dynamic name
-                Text('User name here'),
+                Text(
+                  globalInformations.user?.email ?? "",
+                ),
               ],
             ),
           ),
@@ -60,10 +75,7 @@ class CustomDrawerWidget extends StatelessWidget {
               color: Colors.black,
             ),
             title: const Text('Logout'),
-            onTap: () {
-              Navigator.pop(context);
-              // TODO - Do the logout
-            },
+            onTap: onTapLogout,
           ),
         ],
       ),
