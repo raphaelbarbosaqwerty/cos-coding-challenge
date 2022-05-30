@@ -19,6 +19,25 @@ class ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              final response = await store.logout();
+              if (response) {
+                Modular.to.navigate('/');
+              } else {
+                Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Error!'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            },
+          )
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(

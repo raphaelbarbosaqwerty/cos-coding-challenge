@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
-import 'package:test_challenge/app/core/utils/inspection_list.dart';
 import 'package:test_challenge/app/modules/vehicles/domain/entities/inspection.dart';
 import 'package:test_challenge/app/modules/vehicles/domain/validator/inspection_validator.dart';
 import 'package:test_challenge/app/modules/vehicles/presenter/vehicles_store.dart';

@@ -9,7 +9,7 @@ Please fork the repo and create the Flutter project in the directory of this REA
 
 Build a Flutter mobile application for Android and iOS that includes:
 - A **login page**
-  - Uses Firebase Authentication (email + password)
+  - Uses Firebase Authentication (email + password) ✔️
   - Registration of new users is not needed ✔️
   - Just add a dummy user and password in Firebase ✔️
 - A **profile page** containing:
@@ -18,7 +18,7 @@ Build a Flutter mobile application for Android and iOS that includes:
   - User's preferred photo method
     - Can be switched between Camera and Gallery
     - Should be stored, so that the settings stay the same after application is closed and reopened
-  - An option to change the user's password
+  - An option to change the user's password 
   - An option to change the user's profile picture (please check the user's preferred photo method)
   - An option to logout ✔️
 
@@ -33,9 +33,9 @@ Build a Flutter mobile application for Android and iOS that includes:
   - This page should be implemented as a form with validation:
     - Date of inspection (required) - Date cannot be in the future
     - Vehicle Identification Number (required) - must be exactly 17 characters. Cannot contain I, O, U characters. Can only contain numbers and letters.
-    - Vehicle make (optional)
-    - Vehicle model (optional)
-    - Vehicle photo (optional)
+    - Vehicle make (optional) ❎
+    - Vehicle model (optional) ❎
+    - Vehicle photo (optional) ❎
   - If the required form fields do not match the validation criteria the page cannot be closed and the user should get a warning message
 
 
