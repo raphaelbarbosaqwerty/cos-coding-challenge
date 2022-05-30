@@ -1,8 +1,11 @@
-import 'dart:ffi';
+import 'dart:io';
 
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:test_challenge/app/modules/profile/presenter/profile_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:test_challenge/app/modules/profile/presenter/profile_store.dart';
+import 'package:test_challenge/app/modules/profile/presenter/states/profile_states.dart';
+import 'package:test_challenge/app/modules/profile/presenter/widgets/photo_dialog/photo_dialog.dart';
 
 class ProfilePage extends StatefulWidget {
   final String title;
@@ -12,7 +15,42 @@ class ProfilePage extends StatefulWidget {
 }
 
 class ProfilePageState extends State<ProfilePage> {
+  final TextEditingController newPassword = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final ProfileStore store = Modular.get<ProfileStore>();
+
+  @override
+  void initState() {
+    super.initState();
+    store.addListener(() {
+      if (store.value is SuccessProfileState) {
+        store.globalInformations.updateUser();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.green,
+            content: Text("Success to update user"),
+          ),
+        );
+        Navigator.of(context).pop();
+      }
+
+      if (store.value is ErrorProfileState) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.red,
+            content: Text("Error to update user!"),
+          ),
+        );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    store.value = InitialProfileState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,57 +85,110 @@ class ProfilePageState extends State<ProfilePage> {
         child: Center(
           child: Column(
             children: <Widget>[
-              const SizedBox(
-                height: 98,
-                width: 98,
-                child: CircleAvatar(
-                  child: Text('IMG'),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(30.0),
+                child: Image.network(
+                  store.user?.photoUrl ?? "",
+                  height: 98.0,
+                  width: 98.0,
                 ),
               ),
               const SizedBox(
                 height: 24,
               ),
-              const Text(
-                'Name: User name',
+              ElevatedButton(
+                onPressed: () async {
+                  await showModalBottomSheet(
+                    context: context,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24.0),
+                    ),
+                    builder: (context) => PhotoDialogWidget(
+                      onTapCamera: () async {
+                        await _prepareCamera(ImageSource.camera);
+                        Navigator.of(context).pop();
+                      },
+                      onTapGallery: () async {
+                        await _prepareCamera(ImageSource.gallery);
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  );
+                },
+                child: const Text('Change profile picture'),
               ),
               const SizedBox(
                 height: 24,
               ),
-              const Text(
-                'Email: User email',
+              Text(
+                'Email: ${store.user?.email ?? ""}',
               ),
               const SizedBox(
                 height: 24,
               ),
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Old password',
-                ),
-                obscureText: true,
-                onChanged: (value) {},
-              ),
-              const SizedBox(
-                height: 12,
-              ),
-              TextFormField(
-                decoration: const InputDecoration(
-                  labelText: 'New password',
-                ),
-                obscureText: true,
-                onChanged: (value) {},
+              ValueListenableBuilder(
+                valueListenable: store,
+                builder: (context, value, _) {
+                  if (value is LoadingProfileState) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  return Form(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    key: _formKey,
+                    child: TextFormField(
+                      controller: newPassword,
+                      decoration: const InputDecoration(
+                        labelText: 'New password',
+                      ),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return "Field can't be empty";
+                        }
+
+                        if ((value ?? "").length < 6) {
+                          return "Password need to contain 6 or more characters";
+                        }
+
+                        return null;
+                      },
+                    ),
+                  );
+                },
               ),
             ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // TODO - Change password action
+        onPressed: () async {
+          if (_formKey.currentState?.validate() ?? false) {
+            await store.changeUserPassword(
+              newPassword.text,
+            );
+          }
         },
         child: const Icon(
           Icons.done,
         ),
       ),
     );
+  }
+
+  Future<void> _prepareCamera(ImageSource type) async {
+    final response = await ImagePicker().pickImage(
+      source: type,
+    );
+
+    if (response != null) {
+      Image.file(
+        File(response.path),
+        width: 500,
+        height: 500,
+      );
+    }
   }
 }

@@ -15,10 +15,10 @@ Build a Flutter mobile application for Android and iOS that includes:
 - A **profile page** containing:
   - User's email ✔️
   - User's profile picture
-  - User's preferred photo method
+  - User's preferred photo method ❎
     - Can be switched between Camera and Gallery
     - Should be stored, so that the settings stay the same after application is closed and reopened
-  - An option to change the user's password 
+  - An option to change the user's password ✔️
   - An option to change the user's profile picture (please check the user's preferred photo method)
   - An option to logout ✔️
 
