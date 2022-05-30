@@ -75,6 +75,7 @@ class AuthPageState extends State<AuthPage> {
                   labelText: 'Password',
                   border: OutlineInputBorder(),
                 ),
+                obscureText: true,
                 validator: (value) {
                   if (value?.isEmpty ?? true) {
                     return 'Please enter password';

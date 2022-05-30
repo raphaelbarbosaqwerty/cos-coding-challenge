@@ -43,6 +43,8 @@ dependencies:
   firebase_auth: ^3.3.19
   image_picker: ^0.8.5+3
   firebase_storage: ^10.2.17
+  shared_preferences: ^2.0.15
+  path_provider: ^2.0.10
 
 dev_dependencies:
   flutter_test:

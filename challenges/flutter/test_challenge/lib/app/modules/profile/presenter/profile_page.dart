@@ -1,5 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:image_picker/image_picker.dart';
@@ -105,12 +108,12 @@ class ProfilePageState extends State<ProfilePage> {
                     ),
                     builder: (context) => PhotoDialogWidget(
                       onTapCamera: () async {
-                        await _prepareCamera(ImageSource.camera);
                         Navigator.of(context).pop();
+                        await _prepareCamera(ImageSource.camera);
                       },
                       onTapGallery: () async {
-                        await _prepareCamera(ImageSource.gallery);
                         Navigator.of(context).pop();
+                        await _prepareCamera(ImageSource.gallery);
                       },
                     ),
                   );
@@ -182,13 +185,8 @@ class ProfilePageState extends State<ProfilePage> {
     final response = await ImagePicker().pickImage(
       source: type,
     );
-
     if (response != null) {
-      Image.file(
-        File(response.path),
-        width: 500,
-        height: 500,
-      );
+      await store.updateProfilePhoto(File(response.path));
     }
   }
 }

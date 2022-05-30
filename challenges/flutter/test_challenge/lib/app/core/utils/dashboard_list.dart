@@ -12,9 +12,4 @@ List<Dashboard> dashboardList = [
     route: "/dashboard/profile",
     iconData: Icons.person,
   ),
-  Dashboard(
-    name: "Vehicles",
-    route: "/dashboard/vehicles",
-    iconData: Icons.car_rental,
-  ),
 ];
