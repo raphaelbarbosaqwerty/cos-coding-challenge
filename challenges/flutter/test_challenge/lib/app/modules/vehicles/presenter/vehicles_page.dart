@@ -2,6 +2,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter/material.dart';
 import 'package:test_challenge/app/core/domain/entities/vehicle.dart';
 import 'package:test_challenge/app/core/presenter/cell_generic/cell_generic_widget.dart';
+import 'package:test_challenge/app/modules/vehicles/domain/entities/inspection.dart';
 import 'package:test_challenge/app/modules/vehicles/presenter/states/vehicles_states.dart';
 import 'package:test_challenge/app/modules/vehicles/presenter/vehicles_store.dart';
 
@@ -38,60 +39,72 @@ class VehiclesPageState extends State<VehiclesPage> {
           vertical: 12,
           horizontal: 24,
         ),
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              Text(
-                "Inspections: ${widget.vehicle.name}",
-                style: textTheme.headline6,
-              ),
-              const Divider(),
-              ValueListenableBuilder(
-                valueListenable: store,
-                builder: (context, value, _) {
-                  if (value is LoadingVehiclesState) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                Text(
+                  "Inspections: ${widget.vehicle.name}",
+                  style: textTheme.headline6,
+                ),
+                const Divider(),
+                ValueListenableBuilder(
+                  valueListenable: store,
+                  builder: (context, value, _) {
+                    if (value is LoadingVehiclesState) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
 
-                  if (value is ErrorVehiclesState) {
-                    return Text(value.error);
-                  }
+                    if (value is ErrorVehiclesState) {
+                      return Text(value.error);
+                    }
 
-                  if (value is LoadedVehiclesState) {
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: value.inspections.length,
-                      itemBuilder: (context, index) {
-                        final inspection = value.inspections[index];
-                        return InkWell(
-                          onTap: () {
-                            Modular.to.pushNamed(
-                              '/dashboard/vehicles/inspections',
-                              arguments: inspection,
-                            );
-                          },
-                          child: CellGenericWidget(
-                            hasImg: false,
-                            name:
-                                "Inspection date: ${inspection.dateFormatted}",
-                          ),
-                        );
-                      },
-                    );
-                  }
+                    if (value is LoadedVehiclesState) {
+                      return ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: value.inspections.length,
+                        itemBuilder: (context, index) {
+                          final inspection = value.inspections[index];
+                          return InkWell(
+                            onTap: () async {
+                              await Modular.to.pushNamed(
+                                '/dashboard/vehicles/inspections',
+                                arguments: inspection.copyWith(
+                                  vehicle: widget.vehicle,
+                                ),
+                              );
+                              await store.getVehicles(widget.vehicle.id);
+                            },
+                            child: CellGenericWidget(
+                              hasImg: false,
+                              name:
+                                  "Inspection date: ${inspection.dateFormatted}",
+                            ),
+                          );
+                        },
+                      );
+                    }
 
-                  return const SizedBox();
-                },
-              ),
-            ],
+                    return const SizedBox();
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Modular.to.pushNamed('/dashboard/vehicles/inspections');
+        onPressed: () async {
+          await Modular.to.pushNamed(
+            '/dashboard/vehicles/inspections',
+            arguments: Inspection(
+              vehicle: widget.vehicle,
+            ),
+          );
+          await store.getVehicles(widget.vehicle.id);
         },
         child: const Icon(
           Icons.add_comment,

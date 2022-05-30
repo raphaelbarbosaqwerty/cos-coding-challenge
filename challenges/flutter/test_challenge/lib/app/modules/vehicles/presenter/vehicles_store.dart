@@ -5,7 +5,9 @@ import 'package:test_challenge/app/modules/vehicles/presenter/states/vehicles_st
 class VehiclesStore extends ValueNotifier<VehiclesState> {
   final IGetInspectionsByVehicleId getInspectionsByVehicleId;
 
-  VehiclesStore(this.getInspectionsByVehicleId) : super(LoadingVehiclesState());
+  VehiclesStore(
+    this.getInspectionsByVehicleId,
+  ) : super(LoadingVehiclesState());
 
   Future<void> getVehicles(String id) async {
     final response = await getInspectionsByVehicleId.call(id);
